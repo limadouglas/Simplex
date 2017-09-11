@@ -1,0 +1,34 @@
+thead {
+    background-color: #e64a19;
+    /*ff5722 757575*/
+}
+
+tbody {
+    background-color: #F8F8FF;
+}
+
+.table input {
+    border: 0;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    padding: .75rem;
+    outline: 0;
+    background-color: transparent;
+}
+
+.indice {
+    font-weight: bold;
+    background-color: #ffccbc;
+}
+
+.table td,
+.table th {
+    border-top: 0;
+    text-align: center;
+}
+
+th:hover {
+    background-color: #757575
+}

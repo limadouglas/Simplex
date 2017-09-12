@@ -18,17 +18,21 @@ tbody {
     background-color: transparent;
 }
 
-.indice {
-    font-weight: bold;
-    background-color: #ffccbc;
-}
-
 .table td,
 .table th {
     border-top: 0;
     text-align: center;
 }
 
-th:hover {
-    background-color: #757575
+.indice {
+    font-weight: bold;
+    background-color: #ffccbc;
+}
+
+.indice-topo:hover {
+    background-color: #ffccbc;
+}
+
+.indice-topo:hover img {
+    display: block;
 }

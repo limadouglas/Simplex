@@ -15,18 +15,31 @@
 
     <div class="container">
         <div class="row">
-            <table class="table table-responsive">
+            <table class="table table-responsive" id="tabela-simplex">
                 <thead id="cab-tabela">
                     <tr>
                         <th>Base</th>
-                        <th>X1</th>
-                        <th>
-                            <img src="imagens/ios-close.svg" class="float-left" alt="excluir"> X2
-                            <img src="imagens/ios-plus.svg" class="float-right" alt="adicionar">
+                        <th class="indice-topo">
+                            <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> X1
+                            <!--span-->
+                            <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
                         </th>
-                        <th>F1</th>
-                        <th>F2</th>
-                        <th>F3</th>
+                        <th class="indice-topo">
+                            <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> X2
+                            <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
+                        </th>
+                        <th class="indice-topo">
+                            <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> F1
+                            <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
+                        </th>
+                        <th class="indice-topo">
+                            <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> F2
+                            <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
+                        </th>
+                        <th class="indice-topo">
+                            <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> F3
+                            <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
+                        </th>
                         <th>B</th>
                     </tr>
                 </thead>

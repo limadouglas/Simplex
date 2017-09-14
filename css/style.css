@@ -1,10 +1,23 @@
+body {
+    overflow-y: auto;
+}
+
+#calcular {
+    color: #fff;
+    font-weight: bold;
+    background-color: #eb6864;
+}
+
+#calcular:hover {
+    background: #e53c37;
+}
+
 thead {
-    background-color: #e64a19;
-    /*ff5722 757575*/
+    background-color: #eb6864;
 }
 
 tbody {
-    background-color: #F8F8FF;
+    background-color: #CFCFCF;
 }
 
 .table input {
@@ -22,11 +35,20 @@ tbody {
 .table th {
     border-top: 0;
     text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    border-bottom: 0;
+}
+
+.td-valores {
+    background-color: #CFCFCF;
 }
 
 .indice {
     font-weight: bold;
-    background-color: #ffccbc;
+    background-color: #fff;
 }
 
 .indice-topo:hover {
@@ -35,4 +57,13 @@ tbody {
 
 .indice-topo:hover img {
     display: block;
+}
+
+.indice-final {
+    background-color: #E8E8E8;
+    font-weight: bold;
+}
+
+.indice-final td input {
+    font-weight: bold;
 }

@@ -12,16 +12,23 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row">
+
+            <nav class="navbar navbar-light bg-light col-12">
+                <a class="navbar-brand">Simplex</a>
+                <button class="btn btn-lg" id="calcular" onclick="simplex();">Calcular</button>
+            </nav>
+
+
+            <!-- Tabela Simplex -->
             <table class="table table-responsive" id="tabela-simplex">
                 <thead id="cab-tabela">
                     <tr>
+                        <th>#</th>
                         <th>Base</th>
                         <th class="indice-topo">
                             <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> X1
-                            <!--span-->
                             <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
                         </th>
                         <th class="indice-topo">
@@ -45,34 +52,37 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="indice">1ª</td>
                         <td class="indice">F1</td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
-                        <td><input type="text" value="0"></td>
+                        <td class="indice"><input type="text" value="0"></td>
                     </tr>
                     <tr>
+                        <td class="indice">2ª</td>
                         <td class="indice">F2</td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
-                        <td><input type="text" value="0"></td>
+                        <td class="indice"><input type="text" value="0"></td>
                     </tr>
                     <tr>
+                        <td class="indice">3ª</td>
                         <td class="indice">F3</td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
-                        <td><input type="text" value="0"></td>
+                        <td class="indice"><input type="text" value="0"></td>
                     </tr>
-                    <tr>
-                        <td class="indice">Z</td>
+                    <tr class="indice-final">
+                        <td colspan="2">Z</td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>

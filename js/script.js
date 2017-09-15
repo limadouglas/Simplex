@@ -14,11 +14,9 @@
         var cols = "";
         if ($(obj).parent().text().match(/X/) == 'X') {
             cols = '<th class="indice-topo">' + btnRemover + ('X' + (++numX)) + btnAdicionar + '</th>';
-            numX++;
         } else {
             setLinha();
             cols = '<th class="indice-topo">' + btnRemover + ('F' + (++numF)) + btnAdicionar + '</th>';
-            numF++;
         }
 
         var c = $(cols).insertAfter($(obj).parent());
@@ -39,12 +37,12 @@
         numColunas++;
     }
 
+
     // inserindo nova linha na tabela
     function setLinha() {
         var linha = '<tr>';
         var cols = '<td class="indice">' + (numLinhas++ + 'ª') + '</td>';
         cols += '<td class="indice">' + ('F' + (numF + 1)) + '</td>';
-
 
         for (var i = 0; i < numColunas - 2; i++) {
             cols += '<td><input type="text" value="0"></td>';
@@ -56,13 +54,29 @@
     }
 
 
+    function setCelula(linha, coluna, valor) {
+
+        if (linha > 0 && coluna > 1) {
+            $('#tabela-simplex tbody tr').eq(linha - 1).find('input').eq(coluna - 2).val(String(valor));
+        } else if (linha == 0) {
+            $('#tabela-simplex thead tr').eq(0).find('th').eq(coluna).text(String(valor));
+        } else {
+            $('#tabela-simplex tbody tr').eq(linha - 1).find('td').eq(coluna).text(String(valor));
+        }
+
+    }
+
+
     // retorna um vetor com os valores da linha
     function getLinha(linha) {
         var tr = $('#tabela-simplex tbody tr').eq(linha);
         var vetor = [];
 
-        for (var i = 0; i < numColunas - 1; i++) {
-            vetor[i] = parseFloat(tr.find('input').eq(i).val());
+        vetor[0] = tr.find('td').eq(0).text();
+        vetor[1] = tr.find('td').eq(1).text();
+
+        for (var i = 2; i < numColunas; i++) {
+            vetor[i] = parseFloat(tr.find('input').eq(i - 2).val());
         }
 
         return vetor;
@@ -72,11 +86,29 @@
     // retorna um vetor  com os valores da coluna
     function getColuna(coluna) {
         var vetor = [];
-        for (var i = 0; i < numLinhas; i++) {
-            vetor[i] = parseFloat($('#tabela-simplex tbody tr').eq(i).find('input').eq(coluna).val());
+        vetor[0] = $('#tabela-simplex thead tr').eq(0).find('th').eq(coluna).text();
+
+        for (var i = 1; i <= numLinhas; i++) {
+            if (coluna > 1) {
+                vetor[i] = parseFloat($('#tabela-simplex tbody tr').eq(i - 1).find('input').eq(coluna - 2).val());
+            } else {
+                vetor[i] = parseFloat($('#tabela-simplex tbody tr').eq(i - 1).find('td').eq(coluna).text());
+            }
         }
 
         return vetor;
+    }
+
+
+
+    function getCelula(linha, coluna) {
+        if (linha > 0 && coluna > 1) {
+            return parseFloat($('#tabela-simplex tbody tr').eq(linha - 1).find('input').eq(coluna - 2).val());
+        } else if (linha == 0) {
+            return $('#tabela-simplex thead tr').eq(0).find('th').eq(coluna).text();
+        } else {
+            return $('#tabela-simplex tbody tr').eq(linha - 1).find('td').eq(coluna).text();
+        }
     }
 
 
@@ -114,11 +146,19 @@
 
     }
 
-    function atualizarLinha(vetor, indice) {
-
+    function atualizarLinha(vetor, linha) {
+        var tr = $('#tabela-simplex tbody tr').eq(linha);
+        for (var i = 0; i < vetor.length; i++) {
+            tr.find('find').eq(i).val(String(vetor[i]));
+        }
     }
 
-    function atualizarColuna(vetor, indice) {
+    function atualizarColuna(vetor, coluna) {
+
+        for (var i = 0; i < vetor.length; i++) {
+            var tr = $('#tabela-simplex tbody tr').eq(i);
+            tr.find('td').eq(coluna).text(String(vetor[i]));
+        }
 
     }
 
@@ -144,6 +184,8 @@
         numLinhas--;
     }
 
+
+
     function removerColuna(indice) {
 
         var tr = $('#tabela-simplex thead tr').eq(0); // pegando linha da tabela cabeçalho
@@ -158,8 +200,107 @@
     }
 
 
-    simplex = function() {
+    //------------------------------------------------------------------------------------------------------------------------------------------------
 
+    // função principal.
+    simplex = function() {
+        while (true) {
+            var pivoColuna = Znegativo();
+            if (pivoColuna >= 0) {
+                var pivoLinha = menorDivisao(pivoColuna);
+
+                // atualizando indice: atualizando valor da coluna de indice, substituindo Fn por Xn.
+
+                //---------- //setCelula(pívoLinha, 1, getCelula(0, pivoColuna)); //PAREI AQUI ---------------------------------AQUI
+
+                //$('#tabela-simplex tbody tr').eq(pivoLinha).find('td').eq(1).text($('#tabela-simplex thead tr').eq(0).find('th').eq((pivoColuna + 2)).text());
+                /*
+                var valDivisao = getCelula(pivoLinha, pivoColuna);
+
+                if (valDivisao != 0) {
+                    linhaDivPivo(pivoLinha, valDivisao);
+                }
+                */
+                break;
+            }
+            break;
+
+            //   }
+            //  else {
+            //   alert('calculo finalizado!');
+            //   break;
+            //}
+        }
+
+
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------
+
+    // parte 1, verificando se a linha Z contém um valor negativo e retornando o seu indice.
+    function Znegativo() {
+        var vetor = getLinha(numLinhas - 1);
+        var menor = vetor[2];
+        var indice = 2;
+
+        for (var i = 3; i < numColunas + 1; i++) {
+            if (menor > vetor[i]) {
+                menor = vetor[i];
+                indice = i;
+            }
+        }
+
+        console.log("Znegativo: ", vetor, menor, indice);
+
+        if (menor < 0) {
+            return indice;
+        } else {
+            return -1;
+        }
+    }
+
+
+    // parte 2, dividindo a coluna do menor valor negativo pela coluna B e retornando o indice.
+    function menorDivisao(indice) {
+        var col = getColuna(indice);
+        var colB = getColuna(numColunas);
+        var colAux = [];
+
+        console.log(col, colB);
+
+        var menor;
+        var indice = 0;
+
+        for (var i = 1; i < col.length - 1; i++) {
+            if (col[i] != 0) {
+
+                colAux[i - 1] = (colB[i] / col[i]);
+
+                if (menor == null) {
+                    menor = colAux[i - 1];
+                    indice = i;
+                } else if (menor > colAux[i - 1]) {
+                    menor = colAux[i - 1];
+                    indice = i;
+                }
+            }
+        }
+
+        if (menor == null) {
+            return -1;
+        } else {
+            console.log("indice:" + indice);
+            return indice;
+        }
+    }
+
+    // parte 3, dividindo linha pelo valor definido no pivo
+    function linhaDivPivo(linha, valor) {
+        var vetor = getLinha(linha);
+        for (var i = 0; i < vetor.length; i++) {
+            vetor[i] /= valor;
+        }
+        atualizarLinha(vetor, linha);
     }
 
 

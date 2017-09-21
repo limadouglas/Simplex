@@ -75,7 +75,7 @@
         vetor[0] = tr.find('td').eq(0).text();
         vetor[1] = tr.find('td').eq(1).text();
 
-        for (var i = 2; i < numColunas; i++) {
+        for (var i = 2; i <= numColunas; i++) {
             vetor[i] = parseFloat(tr.find('input').eq(i - 2).val());
         }
 
@@ -147,9 +147,26 @@
     }
 
     function atualizarLinha(vetor, linha) {
-        var tr = $('#tabela-simplex tbody tr').eq(linha);
-        for (var i = 0; i < vetor.length; i++) {
-            tr.find('find').eq(i).val(String(vetor[i]));
+        var tr;
+        var cabecalho = false;
+
+        if (linha == 0) {
+            tr = $('#tabela-simplex thead tr').eq(0).find('th');
+            cabecalho = true;
+        } else if (linha < numLinhas) {
+            tr = $('#tabela-simplex tbody tr').eq(linha - 1).find('td');
+        } else {
+            tr = $('#tabela-simplex tfooter tr').eq(0).find('td');
+        }
+
+        for (var i = 2; i < vetor.length; i++) {
+            if (cabecalho) {
+                tr.eq(i).text(String(vetor[i]));
+            } else if (i < 2) {
+                tr.eq(i).text(String(vetor[i]));
+            } else {
+                tr.eq(i).find('input').eq(0).val(String(vetor[i]));
+            }
         }
     }
 
@@ -161,6 +178,7 @@
         }
 
     }
+
 
     // remover coluna
     remover = function(obj) {
@@ -177,6 +195,8 @@
 
         organizarTabela();
     }
+
+
 
     function removerLinha(indice) {
         var tr = $('#tabela-simplex tbody tr').eq(indice); // pegando linha da tabela cabeçalho
@@ -204,23 +224,23 @@
 
     // função principal.
     simplex = function() {
+        var pivoColuna;
+        var pivoLinha;
+        var valDivisao;
         while (true) {
-            var pivoColuna = Znegativo();
+            pivoColuna = Znegativo();
             if (pivoColuna >= 0) {
-                var pivoLinha = menorDivisao(pivoColuna);
+                pivoLinha = menorDivisao(pivoColuna);
 
                 // atualizando indice: atualizando valor da coluna de indice, substituindo Fn por Xn.
+                setCelula(pivoLinha, 1, getCelula(0, pivoColuna));
 
-                //---------- //setCelula(pívoLinha, 1, getCelula(0, pivoColuna)); //PAREI AQUI ---------------------------------AQUI
+                valDivisao = getCelula(pivoLinha, pivoColuna);
 
-                //$('#tabela-simplex tbody tr').eq(pivoLinha).find('td').eq(1).text($('#tabela-simplex thead tr').eq(0).find('th').eq((pivoColuna + 2)).text());
-                /*
-                var valDivisao = getCelula(pivoLinha, pivoColuna);
+                linhaDivPivo(pivoLinha, valDivisao);
 
-                if (valDivisao != 0) {
-                    linhaDivPivo(pivoLinha, valDivisao);
-                }
-                */
+                zerandoColuna(pivoLinha, pivoColuna);
+
                 break;
             }
             break;
@@ -262,6 +282,7 @@
 
     // parte 2, dividindo a coluna do menor valor negativo pela coluna B e retornando o indice.
     function menorDivisao(indice) {
+
         var col = getColuna(indice);
         var colB = getColuna(numColunas);
         var colAux = [];
@@ -289,18 +310,68 @@
         if (menor == null) {
             return -1;
         } else {
-            console.log("indice:" + indice);
-            return indice;
+            return parseInt(indice);
         }
+
     }
 
     // parte 3, dividindo linha pelo valor definido no pivo
     function linhaDivPivo(linha, valor) {
-        var vetor = getLinha(linha);
-        for (var i = 0; i < vetor.length; i++) {
-            vetor[i] /= valor;
+
+        // a linha é dividida apenas se o valor for diferente de 0.
+        if (valor != 0) {
+            var vetor = getLinha(linha);
+
+            for (var i = 2; i < vetor.length; i++) {
+                vetor[i] /= valor;
+            }
+            atualizarLinha(vetor, linha);
         }
-        atualizarLinha(vetor, linha);
+
+    }
+
+    // parte 4, zerando celulas superiores e inferiores e deixando apenas o valor da linha selecinada.
+    function zerandoColuna(linha, coluna) {
+
+        var vetor;
+        var vetorAtual = getLinha(linha);
+        var pivo = parseInt(getCelula(linha, coluna));
+
+        for (var i = 1; i < numLinhas; i++) {
+
+            // verificação para não calcular a linha atual do pivo.
+            if (linha != i) {
+                console.log("entrou");
+
+                vetor = getLinha(i);
+                var pivoLinha = parseInt(getCelula(i, coluna));
+
+
+                if (parseInt(vetor[coluna]) != 0) {
+                    console.log("entrou2");
+                    for (var j = 2; j <= numColunas; j++) {
+                        vetorAtual[j] = parseInt(vetorAtual[j]) * -pivoLinha;
+                        console.log("entrou3");
+                    }
+
+                    if ((vetorAtual[coluna] + pivoLinha) != 0) {
+                        for (var k = 2; k <= numColunas; k++) {
+                            vetor[k] = parseInt(vetor[k]) * pivo;
+                            console.log("entrou4");
+                        }
+                    }
+
+                    for (var l = 2; l <= numColunas; l++) {
+                        vetor[l] = vetorAtual[l] + vetor[l];
+                        console.log("entrou5");
+                    }
+
+                    atualizarLinha(vetor, i);
+                }
+
+            }
+
+        }
     }
 
 

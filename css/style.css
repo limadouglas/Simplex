@@ -2,14 +2,14 @@ body {
     overflow-y: auto;
 }
 
-#calcular {
+.btn:hover {
+    background: #e53c37;
+}
+
+.btn {
     color: #fff;
     font-weight: bold;
     background-color: #eb6864;
-}
-
-#calcular:hover {
-    background: #e53c37;
 }
 
 thead {
@@ -66,4 +66,8 @@ tbody {
 
 .indice-final td input {
     font-weight: bold;
+}
+
+#proximo {
+    float: right;
 }

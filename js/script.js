@@ -4,6 +4,9 @@
         numColunas = 7,
         numX = 2,
         numF = 3;
+    var estados = [];
+    var estadoAtual = 0;
+    var jaCalculado = false;
 
     var btnRemover = '<img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);">';
     var btnAdicionar = '<img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">';
@@ -69,14 +72,24 @@
 
     // retorna um vetor com os valores da linha
     function getLinha(linha) {
-        var tr = $('#tabela-simplex tbody tr').eq(linha);
+
         var vetor = [];
+        var tr;
 
-        vetor[0] = tr.find('td').eq(0).text();
-        vetor[1] = tr.find('td').eq(1).text();
+        if (linha > 0) {
+            tr = $('#tabela-simplex tbody tr').eq(--linha);
 
-        for (var i = 2; i <= numColunas; i++) {
-            vetor[i] = parseFloat(tr.find('input').eq(i - 2).val());
+            vetor[0] = tr.find('td').eq(0).text();
+            vetor[1] = tr.find('td').eq(1).text();
+            for (var i = 0; i < numColunas - 1; i++) {
+                vetor[i + 2] = parseFloat(tr.find('input').eq(i).val());
+            }
+        } else {
+            var tr = $('#tabela-simplex thead tr').eq(linha);
+
+            for (var i = 0; i <= numColunas; i++) {
+                vetor[i] = tr.find('th').eq(i).text();
+            }
         }
 
         return vetor;
@@ -153,11 +166,12 @@
         if (linha == 0) {
             tr = $('#tabela-simplex thead tr').eq(0).find('th');
             cabecalho = true;
-        } else if (linha < numLinhas) {
+        } else { //if (linha <= numLinhas) 
             tr = $('#tabela-simplex tbody tr').eq(linha - 1).find('td');
-        } else {
-            tr = $('#tabela-simplex tfooter tr').eq(0).find('td');
         }
+        //else {
+        //  tr = $('#tabela-simplex tfooter tr').eq(0).find('td');
+        // }
 
         for (var i = 2; i < vetor.length; i++) {
             if (cabecalho) {
@@ -165,7 +179,7 @@
             } else if (i < 2) {
                 tr.eq(i).text(String(vetor[i]));
             } else {
-                tr.eq(i).find('input').eq(0).val(String(vetor[i]));
+                tr.eq(i).find('input').eq(0).val(String(vetor[i])); //.toFixed(3)
             }
         }
     }
@@ -227,9 +241,13 @@
         var pivoColuna;
         var pivoLinha;
         var valDivisao;
+
+        jaCalculado = true;
+
         while (true) {
             pivoColuna = Znegativo();
-            if (pivoColuna >= 0) {
+
+            if (pivoColuna != -1) {
                 pivoLinha = menorDivisao(pivoColuna);
 
                 // atualizando indice: atualizando valor da coluna de indice, substituindo Fn por Xn.
@@ -240,18 +258,11 @@
                 linhaDivPivo(pivoLinha, valDivisao);
 
                 zerandoColuna(pivoLinha, pivoColuna);
-
+            } else {
                 break;
             }
-            break;
 
-            //   }
-            //  else {
-            //   alert('calculo finalizado!');
-            //   break;
-            //}
         }
-
 
     }
 
@@ -259,7 +270,7 @@
 
     // parte 1, verificando se a linha Z contém um valor negativo e retornando o seu indice.
     function Znegativo() {
-        var vetor = getLinha(numLinhas - 1);
+        var vetor = getLinha(numLinhas);
         var menor = vetor[2];
         var indice = 2;
 
@@ -269,8 +280,6 @@
                 indice = i;
             }
         }
-
-        console.log("Znegativo: ", vetor, menor, indice);
 
         if (menor < 0) {
             return indice;
@@ -286,8 +295,6 @@
         var col = getColuna(indice);
         var colB = getColuna(numColunas);
         var colAux = [];
-
-        console.log(col, colB);
 
         var menor;
         var indice = 0;
@@ -315,6 +322,7 @@
 
     }
 
+
     // parte 3, dividindo linha pelo valor definido no pivo
     function linhaDivPivo(linha, valor) {
 
@@ -326,53 +334,87 @@
                 vetor[i] /= valor;
             }
             atualizarLinha(vetor, linha);
+            salvarEstado();
         }
 
     }
+
 
     // parte 4, zerando celulas superiores e inferiores e deixando apenas o valor da linha selecinada.
     function zerandoColuna(linha, coluna) {
-
         var vetor;
-        var vetorAtual = getLinha(linha);
-        var pivo = parseInt(getCelula(linha, coluna));
+        var vetorAtual;
 
-        for (var i = 1; i < numLinhas; i++) {
+        for (var i = 1; i <= numLinhas; i++) {
+
+            vetor = getLinha(i);
+            vetorAtual = getLinha(linha);
+            pivo = getCelula(i, coluna);
 
             // verificação para não calcular a linha atual do pivo.
-            if (linha != i) {
-                console.log("entrou");
+            if ((linha != i) && (pivo != 0)) {
 
-                vetor = getLinha(i);
-                var pivoLinha = parseInt(getCelula(i, coluna));
-
-
-                if (parseInt(vetor[coluna]) != 0) {
-                    console.log("entrou2");
-                    for (var j = 2; j <= numColunas; j++) {
-                        vetorAtual[j] = parseInt(vetorAtual[j]) * -pivoLinha;
-                        console.log("entrou3");
-                    }
-
-                    if ((vetorAtual[coluna] + pivoLinha) != 0) {
-                        for (var k = 2; k <= numColunas; k++) {
-                            vetor[k] = parseInt(vetor[k]) * pivo;
-                            console.log("entrou4");
-                        }
-                    }
-
-                    for (var l = 2; l <= numColunas; l++) {
-                        vetor[l] = vetorAtual[l] + vetor[l];
-                        console.log("entrou5");
-                    }
-
-                    atualizarLinha(vetor, i);
+                for (var j = 2; j < vetor.length; j++) {
+                    vetorAtual[j] = parseFloat(vetorAtual[j] * -pivo);
                 }
 
-            }
+                if ((vetorAtual[coluna] + pivo) != 0) {
+                    for (var k = 2; k < vetor.length; k++) {
+                        vetor[k] = parseFloat(vetor[k]) * vetorAtual[coluna];
+                    }
+                }
 
+                for (var l = 2; l < vetor.length; l++) {
+                    vetor[l] = vetorAtual[l] + vetor[l];
+                }
+
+                atualizarLinha(vetor, i);
+                salvarEstado();
+            }
         }
     }
+
+
+    // salvando todos os passos, para que seja possivel ver o funcionamento por partes.
+    function salvarEstado() {
+        var estadoAux = [];
+        for (var i = 0; i <= numLinhas; i++) {
+            estadoAux[i] = getLinha(i);
+        }
+
+        estados[estados.length] = estadoAux;
+        estadoAtual = estados.length;
+    }
+
+
+
+
+    proximo = function() {
+        if (!jaCalculado) {
+            simplex();
+        } else if (estadoAtual < estados.length - 1) {
+            estadoAtual++;
+            for (var i = 0; i <= numLinhas; i++) {
+                atualizarLinha(estados[estadoAtual][i], i);
+            }
+        }
+    }
+
+    anterior = function() {
+        if (!jaCalculado) {
+            simplex();
+        } else if (estadoAtual > 0) {
+            estadoAtual--;
+            for (var i = 0; i <= numLinhas; i++) {
+                atualizarLinha(estados[estadoAtual][i], i);
+            }
+        }
+    }
+
+
+    $('input').on('input', function() {
+        jaCalculado = false;
+    });
 
 
 })(jQuery);

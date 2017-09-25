@@ -173,7 +173,7 @@
         //  tr = $('#tabela-simplex tfooter tr').eq(0).find('td');
         // }
 
-        for (var i = 2; i < vetor.length; i++) {
+        for (var i = 0; i < vetor.length; i++) {
             if (cabecalho) {
                 tr.eq(i).text(String(vetor[i]));
             } else if (i < 2) {
@@ -243,8 +243,10 @@
         var valDivisao;
 
         jaCalculado = true;
+        salvarEstado();
 
         while (true) {
+
             pivoColuna = Znegativo();
 
             if (pivoColuna != -1) {
@@ -252,6 +254,7 @@
 
                 // atualizando indice: atualizando valor da coluna de indice, substituindo Fn por Xn.
                 setCelula(pivoLinha, 1, getCelula(0, pivoColuna));
+                salvarEstado();
 
                 valDivisao = getCelula(pivoLinha, pivoColuna);
 
@@ -344,12 +347,15 @@
     function zerandoColuna(linha, coluna) {
         var vetor;
         var vetorAtual;
+        var vetorAux;
+        vetorAtual = getLinha(linha);
+        vetorAux = vetorAtual;
 
         for (var i = 1; i <= numLinhas; i++) {
 
             vetor = getLinha(i);
-            vetorAtual = getLinha(linha);
             pivo = getCelula(i, coluna);
+            vetorAtual = getLinha(linha);
 
             // verificação para não calcular a linha atual do pivo.
             if ((linha != i) && (pivo != 0)) {
@@ -358,10 +364,15 @@
                     vetorAtual[j] = parseFloat(vetorAtual[j] * -pivo);
                 }
 
+                atualizarLinha(vetorAtual, linha);
+                salvarEstado();
+
                 if ((vetorAtual[coluna] + pivo) != 0) {
                     for (var k = 2; k < vetor.length; k++) {
                         vetor[k] = parseFloat(vetor[k]) * vetorAtual[coluna];
                     }
+                    atualizarLinha(vetor, i);
+                    salvarEstado();
                 }
 
                 for (var l = 2; l < vetor.length; l++) {
@@ -369,6 +380,7 @@
                 }
 
                 atualizarLinha(vetor, i);
+                atualizarLinha(vetorAux, linha);
                 salvarEstado();
             }
         }
@@ -392,6 +404,8 @@
     proximo = function() {
         if (!jaCalculado) {
             simplex();
+            estadoAtual = 0;
+            proximo();
         } else if (estadoAtual < estados.length - 1) {
             estadoAtual++;
             for (var i = 0; i <= numLinhas; i++) {
@@ -402,7 +416,9 @@
 
     anterior = function() {
         if (!jaCalculado) {
-            simplex();
+            anterior();
+            estadoAtual = 0;
+            anterior();
         } else if (estadoAtual > 0) {
             estadoAtual--;
             for (var i = 0; i <= numLinhas; i++) {
@@ -415,6 +431,7 @@
     $('input').on('input', function() {
         jaCalculado = false;
     });
+
 
 
 })(jQuery);

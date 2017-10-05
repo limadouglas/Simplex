@@ -11,6 +11,8 @@
     var btnRemover = '<img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);">';
     var btnAdicionar = '<img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">';
 
+    var opMaximizar = true;
+
 
     adicionar = function(obj) {
 
@@ -238,6 +240,16 @@
 
     // função principal.
     simplex = function() {
+        if (opMaximizar) {
+            maximizar();
+        } else {
+            minimizar();
+        }
+
+    }
+
+
+    function maximizar() {
         var pivoColuna;
         var pivoLinha;
         var valDivisao;
@@ -266,7 +278,10 @@
             }
 
         }
+    }
 
+    function minimizar() {
+        alert("minimizar ainda não implementado");
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -398,22 +413,20 @@
         estadoAtual = estados.length;
     }
 
-
-
-
+    // ir para o proximo estado
     proximo = function() {
-        if (!jaCalculado) {
-            simplex();
-            estadoAtual = 0;
-            proximo();
-        } else if (estadoAtual < estados.length - 1) {
-            estadoAtual++;
-            for (var i = 0; i <= numLinhas; i++) {
-                atualizarLinha(estados[estadoAtual][i], i);
+            if (!jaCalculado) {
+                simplex();
+                estadoAtual = 0;
+                proximo();
+            } else if (estadoAtual < estados.length - 1) {
+                estadoAtual++;
+                for (var i = 0; i <= numLinhas; i++) {
+                    atualizarLinha(estados[estadoAtual][i], i);
+                }
             }
         }
-    }
-
+        // ir para o estado anterior
     anterior = function() {
         if (!jaCalculado) {
             anterior();
@@ -427,10 +440,42 @@
         }
     }
 
-
+    // função chamada quando tem alteração em algum valor da tabela, jaCalculado vai pra falso e isso signifca que é necessario calcular novamente.
     $('input').on('input', function() {
         jaCalculado = false;
     });
+
+    // alterando entre operação de maximizar e minimizar(vice e versa).
+    operacao = function() {
+        jaCalculado = false;
+        var operacao = $('#opSecundaria').text();
+
+        if (operacao == "Maximizar") {
+            $('#opPrincipal').text("Maximizar");
+            $('#opSecundaria').text("Minimizar");
+            opMaximizar = true;
+        } else if (operacao == "Minimizar") {
+            $('#opPrincipal').text("Minimizar");
+            $('#opSecundaria').text("Maximizar");
+            opMaximizar = false;
+        } else {
+            alert("não reconhecido");
+        }
+
+    }
+
+
+    // limpando tudo, preenchendo todos os campos da tabela com 0.
+    limpar = function() {
+        var linha = [];
+        for (var i = 1; i < numLinhas + 1; i++) {
+            linha = getLinha(i);
+            for (var j = 2; j < numColunas + 1; j++) {
+                linha[j] = 0;
+            }
+            atualizarLinha(linha, i);
+        }
+    }
 
 
 

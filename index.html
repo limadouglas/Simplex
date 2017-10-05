@@ -17,7 +17,22 @@
 
             <nav class="navbar navbar-light bg-light col-12">
                 <a class="navbar-brand">Simplex</a>
-                <button class="btn btn-lg" id="calcular" onclick="simplex();">Calcular</button>
+
+                <!-- Example split danger button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger" id="opPrincipal" onclick="simplex();">Maximizar</button>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" id="opSecundaria" onclick="operacao(this);">Minimizar</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" onclick="limpar();">Limpar</a>
+                    </div>
+                </div>
+
+
+                <!-- <button class="btn btn-lg" id="calcular" onclick="simplex();">Calcular</button> -->
             </nav>
 
 
@@ -97,8 +112,8 @@
                 </tfoot>
             </table>
             <div class="col-12">
-                <button type="button" class="btn btn-sm col-2" id="proximo" onclick="proximo();">próximo</button>
-                <button type="button" class="btn btn-sm col-2" id="anterior" onclick="anterior();">anterior</button>
+                <button type="button" class="btn btn-sm col-2" id="proximo" onclick="proximo();">próximo ► </button>
+                <button type="button" class="btn btn-sm col-2" id="anterior" onclick="anterior();"> ◄ anterior</button>
             </div>
 
         </div>

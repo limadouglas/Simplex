@@ -71,3 +71,8 @@ tbody {
 #proximo {
     float: right;
 }
+
+.navbar-brand {
+    font-weight: bold;
+    color: #e53c37!important;
+}

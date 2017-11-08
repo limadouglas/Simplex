@@ -6,6 +6,9 @@
         numF = 3;
     var estados = [];
     var estadoAtual = 0;
+    var estadosFinais = [];
+    var estadoFinalAtual = 0;
+
     var jaCalculado = false;
 
     var btnRemover = '<img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);">';
@@ -235,7 +238,8 @@
         numColunas--;
     }
 
-
+    //------------------------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------------------------------########################
     //------------------------------------------------------------------------------------------------------------------------------------------------
 
     // função principal.
@@ -253,20 +257,28 @@
         var pivoColuna;
         var pivoLinha;
         var valDivisao;
+        var iteracoes = 0;
 
         jaCalculado = true;
-        salvarEstado();
+        salvarEstado(false);
 
         while (true) {
-
+            salvarEstado(true);
+            if (compararEstados()) {
+                console.log("REPETIDO");
+                break;
+            }
             pivoColuna = Znegativo();
+            //        console.log("iteracoes: " + iteracoes);
 
-            if (pivoColuna != -1) {
+            if (pivoColuna != -1 && iteracoes < 200) {
+                iteracoes++;
                 pivoLinha = menorDivisao(pivoColuna);
+
 
                 // atualizando indice: atualizando valor da coluna de indice, substituindo Fn por Xn.
                 setCelula(pivoLinha, 1, getCelula(0, pivoColuna));
-                salvarEstado();
+                salvarEstado(false);
 
                 valDivisao = getCelula(pivoLinha, pivoColuna);
 
@@ -352,7 +364,7 @@
                 vetor[i] /= valor;
             }
             atualizarLinha(vetor, linha);
-            salvarEstado();
+            salvarEstado(false);
         }
 
     }
@@ -380,14 +392,14 @@
                 }
 
                 atualizarLinha(vetorAtual, linha);
-                salvarEstado();
+                salvarEstado(false);
 
                 if ((vetorAtual[coluna] + pivo) != 0) {
                     for (var k = 2; k < vetor.length; k++) {
                         vetor[k] = parseFloat(vetor[k]) * vetorAtual[coluna];
                     }
                     atualizarLinha(vetor, i);
-                    salvarEstado();
+                    salvarEstado(false);
                 }
 
                 for (var l = 2; l < vetor.length; l++) {
@@ -396,21 +408,46 @@
 
                 atualizarLinha(vetor, i);
                 atualizarLinha(vetorAux, linha);
-                salvarEstado();
+                salvarEstado(false);
             }
         }
     }
 
 
     // salvando todos os passos, para que seja possivel ver o funcionamento por partes.
-    function salvarEstado() {
+    function salvarEstado(finais) {
         var estadoAux = [];
         for (var i = 0; i <= numLinhas; i++) {
             estadoAux[i] = getLinha(i);
         }
 
+        // salva estados finais em um array diferente para otimização de comparação(verificar quando os resultados são infinitos) 
+        if (finais) {
+            estadosFinais[estadosFinais.length] = estadoAux;
+            estadoFinalAtual = estadosFinais.length;
+        }
+
         estados[estados.length] = estadoAux;
         estadoAtual = estados.length;
+    }
+
+    // esta função tem como objetivo verificar se os calculos estão se repetindo ou seja se a tabela tem infinitas soluções
+    function compararEstados() {
+        var estado = "";
+        var estadoAux = "";
+
+        for (var i = 0; i < estadosFinais.length; i++) {
+            estado = JSON.stringify(estadosFinais[i]);
+            for (var j = i + 1; j < estadosFinais.length; j++) {
+                estadoAux = JSON.stringify(estadosFinais[j]);
+                if (estado.equals(estadoAux) == true) {
+                    console.log("REPETIDO ------------");
+                    return true;
+                }
+            }
+        }
+        console.log("sem repetidos false ---" + "estadosFinais tamanho: " + estadosFinais.length);
+        return false;
     }
 
     // ir para o proximo estado

@@ -18,7 +18,7 @@
             <nav class="navbar navbar-light bg-light col-12">
                 <a class="navbar-brand">Simplex</a>
 
-                <!-- Example split danger button -->
+                <!-- Example split danger button. -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-danger" id="opPrincipal" onclick="simplex();">Maximizar</button>
                     <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,7 +37,7 @@
 
 
             <!-- Tabela Simplex -->
-            <table class="table table-responsive" id="tabela-simplex">
+            <table class="table table-responsive " id="tabela-simplex">
                 <thead id="cab-tabela">
                     <tr>
                         <th>#</th>
@@ -62,6 +62,7 @@
                             <img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);"> F3
                             <img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">
                         </th>
+                        <th>Sinal</th>
                         <th>B</th>
                     </tr>
                 </thead>
@@ -69,41 +70,75 @@
                     <tr>
                         <td class="indice">1ª</td>
                         <td class="indice">F1</td>
-                        <td><input type="text" value="2"></td>
                         <td><input type="text" value="1"></td>
+                        <td><input type="text" value="0"></td>
                         <td><input type="text" value="1"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
-                        <td class="indice"><input type="text" value="16"></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">=</button>
+                                    <div class="dropdown-menu" aria-labelledby="sinal">
+                                        <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> <= </a>
+                                        <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="indice"><input type="text" value="4"></td>
                     </tr>
                     <tr>
                         <td class="indice">2ª</td>
                         <td class="indice">F2</td>
-                        <td><input type="text" value="1"></td>
-                        <td><input type="text" value="2"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="1"></td>
                         <td><input type="text" value="0"></td>
-                        <td class="indice"><input type="text" value="11"></td>
+                        <td><input type="text" value="1"></td>
+                        <td><input type="text" value="0"></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">=</button>
+                                    <div class="dropdown-menu" aria-labelledby="sinal">
+                                        <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> <= </a>
+                                        <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="indice"><input type="text" value="6"></td>
                     </tr>
                     <tr>
                         <td class="indice">3ª</td>
                         <td class="indice">F3</td>
-                        <td><input type="text" value="1"></td>
                         <td><input type="text" value="3"></td>
+                        <td><input type="text" value="2"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="1"></td>
-                        <td class="indice"><input type="text" value="15"></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">=</button>
+                                    <div class="dropdown-menu" aria-labelledby="sinal">
+                                        <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> <= </a>
+                                        <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="indice"><input type="text" value="18"></td>
                     </tr>
                     <tr class="indice-final">
                         <td>#</td>
                         <td>Z</td>
-                        <td><input type="text" value="-30"></td>
-                        <td><input type="text" value="-50"></td>
+                        <td><input type="text" value="-3"></td>
+                        <td><input type="text" value="-5"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
                         <td><input type="text" value="0"></td>
+                        <td></td>
                         <td><input type="text" value="0"></td>
                     </tr>
                 </tbody>

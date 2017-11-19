@@ -12,7 +12,7 @@
         var btnAdicionar = '<img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">';
     
         var opMaximizar = true;
-    
+    //
     
         adicionar = function(obj) {
     

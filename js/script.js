@@ -177,6 +177,7 @@
             //else {
             //  tr = $('#tabela-simplex tfooter tr').eq(0).find('td');
             // }
+            //
     
             for (var i = 0; i < vetor.length; i++) {
                 if (cabecalho) {

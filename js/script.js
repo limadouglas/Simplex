@@ -12,7 +12,7 @@
         var btnAdicionar = '<img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">';
     
         var opMaximizar = true;
-    //
+    
     
         adicionar = function(obj) {
     
@@ -165,6 +165,8 @@
         function atualizarLinha(vetor, linha) {
             var tr;
             var cabecalho = false;
+            var colSinal = '<td><div class="btn-group" role="group" aria-label="Button group with nested dropdown"><div class="btn-group" role="group"><button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">=</button><div class="dropdown-menu" aria-labelledby="sinal"><a class="dropdown-item" href="#" onclick="alterarSinal(this);"> <= </a><a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a></div></div></div></td>';
+            
     
             if (linha == 0) {
                 tr = $('#tabela-simplex thead tr').eq(0).find('th');
@@ -182,7 +184,11 @@
                 } else if (i < 2) {
                     tr.eq(i).text(String(vetor[i]));
                 } else {
-                    tr.eq(i).find('input').eq(0).val(String(vetor[i])); //.toFixed(3)
+                    if(i == (vetor.length-1) )
+                        tr.eq(i+1).find('input').eq(0).val(String(vetor[i]));
+                    else
+                        tr.eq(i).find('input').eq(0).val(String(vetor[i]));
+
                 }
             }
         }

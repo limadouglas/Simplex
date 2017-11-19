@@ -84,8 +84,8 @@
     
                 vetor[0] = tr.find('td').eq(0).text();
                 vetor[1] = tr.find('td').eq(1).text();
-                for (var i = 0; i < numColunas - 1; i++) {
-                    vetor[i + 2] = parseFloat(tr.find('input').eq(i).val());
+                for (var i = 2; i < numColunas; i++) {
+                    vetor[i] = parseFloat(tr.find('input').eq(i-2).val());
                 }
             } else {
                 var tr = $('#tabela-simplex thead tr').eq(linha);
@@ -94,8 +94,9 @@
                     vetor[i] = tr.find('th').eq(i).text();
                 }
             }
-    
+            //console.log("vetor retornado: "+ vetor);
             return vetor;
+
         }
     
     
@@ -319,7 +320,7 @@
         function menorDivisao(indice) {
     
             var col = getColuna(indice);
-            var colB = getColuna(numColunas);
+            var colB = getColuna(numColunas-1);
             var colAux = [];
     
             var menor;
@@ -328,14 +329,17 @@
             for (var i = 1; i < col.length - 1; i++) {
                 if (col[i] != 0) {
     
-                    colAux[i - 1] = (colB[i] / col[i]);
-    
+                    colAux[i - 1] = (parseInt(colB[i]) / parseInt(col[i]));
+                    console.log("menor: "+ colAux[i-1]);
                     if (menor == null) {
                         menor = colAux[i - 1];
                         indice = i;
                     } else if (menor > colAux[i - 1]) {
+                        
                         menor = colAux[i - 1];
                         indice = i;
+
+                        console.log("menor: " + menor + " indice: " + indice);
                     }
                 }
             }

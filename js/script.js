@@ -31,6 +31,8 @@
             setColuna(indice);
     
             organizarTabela();
+
+            console.log("Numero de X: " + numX);
         }
     
         function setColuna(indice) {
@@ -94,7 +96,6 @@
                     vetor[i] = tr.find('th').eq(i).text();
                 }
             }
-            //console.log("vetor retornado: "+ vetor);
             return vetor;
 
         }
@@ -137,8 +138,8 @@
             for (var i = 2; i < numColunas; i++) {
                 if (tr.find('th').eq(i).text().match(/X/) == 'X') {
                     tr.find('th').eq(i).html(btnRemover + ('X' + (i - 1)) + btnAdicionar);
-                } else {
-                    for (var j = i; j < numColunas; j++) {
+                } else{
+                    for (var j = i; j < numColunas-1; j++) {
                         tr.find('th').eq(j).html(btnRemover + ('F' + ((j + 1) - i)) + btnAdicionar);
                     }
                     break;
@@ -175,10 +176,7 @@
             } else { //if (linha <= numLinhas) 
                 tr = $('#tabela-simplex tbody tr').eq(linha - 1).find('td');
             }
-            //else {
-            //  tr = $('#tabela-simplex tfooter tr').eq(0).find('td');
-            // }
-            //
+
     
             for (var i = 0; i < vetor.length; i++) {
                 if (cabecalho) {
@@ -190,7 +188,6 @@
                         tr.eq(i+1).find('input').eq(0).val(String(vetor[i]));
                     else
                         tr.eq(i).find('input').eq(0).val(String(vetor[i]));
-
                 }
             }
         }
@@ -248,17 +245,18 @@
         //------------------------------------------------------------------------------------------------------------------------------------------------
     
         // função principal.
-        simplex = function() {
+        calcular = function() {
+
             if (opMaximizar) {
-                maximizar();
-            } else {
-                minimizar();
+                inverterSinalLinha(numLinhas);
             }
+
+            simplex();
     
         }
     
     
-        function maximizar() {
+        function simplex() {
             var pivoColuna;
             var pivoLinha;
             var valDivisao;
@@ -288,13 +286,22 @@
     
             }
         }
-    
-        function minimizar() {
-            alert("minimizar ainda não implementado");
-        }
-    
+
         //---------------------------------------------------------------------------------------------------------------------------------------------------
     
+        // negando ultima linha método maximizar
+        function inverterSinalLinha(linha){
+
+            var vetor = getLinha(linha);
+            vetor[1] = "-Z";
+
+            for(var i=2; i < vetor.length; i++){
+                vetor[i] = vetor[i] * -1;
+            }
+            console.log(vetor);
+            atualizarLinha(vetor, numLinhas);
+        }
+
         // parte 1, verificando se a linha Z contém um valor negativo e retornando o seu indice.
         function Znegativo() {
             var vetor = getLinha(numLinhas);
@@ -330,7 +337,7 @@
                 if (col[i] != 0) {
     
                     colAux[i - 1] = (parseInt(colB[i]) / parseInt(col[i]));
-                    console.log("menor: "+ colAux[i-1]);
+                    // console.log("menor: "+ colAux[i-1]);
                     if (menor == null) {
                         menor = colAux[i - 1];
                         indice = i;
@@ -339,7 +346,7 @@
                         menor = colAux[i - 1];
                         indice = i;
 
-                        console.log("menor: " + menor + " indice: " + indice);
+                        // console.log("menor: " + menor + " indice: " + indice);
                     }
                 }
             }
@@ -428,7 +435,7 @@
         // ir para o proximo estado
         proximo = function() {
                 if (!jaCalculado) {
-                    simplex();
+                    calcular();
                     estadoAtual = 0;
                     proximo();
                 } else if (estadoAtual < estados.length - 1) {
@@ -494,6 +501,32 @@
             var sinalAtual = auxSinal.text();
             auxSinal.text($(op).text());
             $(op).text(sinalAtual);
+
+            
+            // alterando sinal da celula.
+
+            var indiceCelula = parseInt($(op).closest("tr").index());
+            var valCelula = getCelula(indiceCelula + 1, (indiceCelula + (numX+2)));
+
+            if(auxSinal.text() == " <= "){
+                if(valCelula != 0){
+                    valCelula = Math.abs(valCelula);
+                }else{
+                    valCelula = 1;
+                }
+            }else if(auxSinal.text() == " >= "){
+                if(valCelula != 0){
+                    valCelula = Math.abs(valCelula)*-1;
+                }else{
+                    valCelula = -1;
+                }
+            }else if(auxSinal.text() == " = "){
+                valCelula = 0;
+            }
+
+            setCelula(indiceCelula+1, (indiceCelula + (numX+2)), valCelula);
+
+            //console.log("indiceCelula: " + indiceCelula, "valCelula: " + valCelula);
         }
     
     

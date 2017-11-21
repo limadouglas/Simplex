@@ -7,6 +7,7 @@
         var estados = [];
         var estadoAtual = 0;
         var jaCalculado = false;
+        var indiceEstadosFinais = [];
     
         var btnRemover = '<img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);">';
         var btnAdicionar = '<img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">';
@@ -267,8 +268,13 @@
             while (true) {
     
                 pivoColuna = Znegativo();
-    
-                if (pivoColuna != -1) {
+
+                if( verificarIlimitado(pivoColuna) ){
+                    alert("soluções ilimitadas");
+                    break;
+                } else if(verificarMutiplosResultados()){
+
+                } else if (pivoColuna != -1) {
                     pivoLinha = menorDivisao(pivoColuna);
     
                     // atualizando indice: atualizando valor da coluna de indice, substituindo Fn por Xn.
@@ -280,6 +286,7 @@
                     linhaDivPivo(pivoLinha, valDivisao);
     
                     zerandoColuna(pivoLinha, pivoColuna);
+                    indiceEstadosFinais[estadoAtual];
                 } else {
                     break;
                 }
@@ -419,8 +426,33 @@
                 }
             }
         }
-    
-    
+        
+
+        // verificar ilimitado, se todos os valores da coluna forem negativos é porque ele é ilimitado
+        function verificarIlimitado(indice){
+            var vetor = getColuna(indice);
+
+            for(var i=0; i < vetor.length; i++){
+                if(vetor[i] > 0){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function verificarMultiplosResultados(){
+            if(indiceEstadosFinais.length <= 1){
+                if(JSON.stringify(estados[0]) == JSON.stringify(estados[1])){
+                    return true;
+                }
+            }   
+            
+            return false;
+            
+        }
+
+
         // salvando todos os passos, para que seja possivel ver o funcionamento por partes.
         function salvarEstado() {
             var estadoAux = [];

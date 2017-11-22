@@ -72,6 +72,10 @@ tbody {
     float: right;
 }
 
+#anterior {
+    float: left;
+}
+
 .navbar-brand {
     font-weight: bold;
     color: #e53c37!important;

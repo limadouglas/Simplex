@@ -145,8 +145,39 @@
                 </tfoot>
             </table>
             <div class="col-12">
-                <button type="button" class="btn btn-sm col-2" id="proximo" onclick="proximo();">próximo ► </button>
-                <button type="button" class="btn btn-sm col-2" id="anterior" onclick="anterior();"> ◄ anterior</button>
+                <button type="button" class="btn btn-sm col-2 order-1" id="proximo" onclick="proximo();">próximo ► </button>
+                <button type="button" class="btn btn-sm col-2 order-3" id="anterior" onclick="anterior();"> ◄ anterior</button>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="resultadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Resultado</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table" id="tbl-resultados">
+                                <thead>
+                                    <tr>
+                                        <td>variáveis</td>
+                                        <td>resultados</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

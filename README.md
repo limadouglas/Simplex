@@ -11,7 +11,7 @@ Douglas Henrique		| 551066
 De maneira resumida o Simplex é um algoritmo criado por George Dantzig que viabiliza a solução de muitos problemas da programação linear. Bastante popular, encontra boa aceitação em áreas onde diversas necessidades e restrições influenciam em um valor que precisa ser aumentado ou diminuído ao máximo.
 
 ### Como utilizar?
-O algoritmo desenvolvido esta hospedado neste link: https://limadouglas.github.io/Simplex/, sua utilização é bastente simplex hahaha, sendo necessário seguir apenas os passos a seguir:
+O algoritmo desenvolvido esta hospedado neste link: https://limadouglas.github.io/Simplex/, sua utilização é bastante simplex hahaha, sendo necessário seguir apenas os passos a seguir:
 
 - Preencha os campos da tabela com os valores a serem calculados, insira novas linhas e colunas se necessário(ao passar o mouse sobre a primeira linha da tabela os botões de adição e exclusão serão mostrados).
 

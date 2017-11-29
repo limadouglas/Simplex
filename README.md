@@ -25,7 +25,7 @@ O algoritmo desenvolvido esta hospedado neste link: https://limadouglas.github.i
 
 Requisitos 			| Ferramentas
 --------- 			| ------
-Navegadores     	| Mozila Firefox, Chrome
+Navegadores     	| Google Chrome
 
 
 

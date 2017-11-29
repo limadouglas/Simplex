@@ -42,9 +42,9 @@ Hospedagem | https://pages.github.com/
 
 Código 		| Título 												| Tarefa 																									| Situação 
 --------- 	| ------ 												| -------																									| ----------
-1 			| Maximizar 											| Montar a Tabela Simplex, e possibilitar o usuário a maximizar modelos de simplex com sistemas lineares. 	| Concluído 
-2 			| Minimizar 											| Montar a Tabela Simplex, e possibilitar o usuário a minimizar modelos de simplex com sistemas lineares. 	| Concluído 
-3 			| Adição	| Possibilidade de incluir novos parametros, ou seja, mais campos para o problema a ser calculado							| Concluído 
+1 			| Maximizar 											| Montar a Tabela Simplex e possibilitar o usuário a maximizar modelos de simplex com sistemas lineares. 	| Concluído 
+2 			| Minimizar 											| Montar a Tabela Simplex e possibilitar o usuário a minimizar modelos de simplex com sistemas lineares. 	| Concluído 
+3 			| Adição	| Possibilidade de incluir novos parametros, ou seja, mais campos para o problema a ser calculado.							| Concluído 
 4 			| Demonstrar 								| Passo a passo da solução 					| Concluído
 
 

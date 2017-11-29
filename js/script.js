@@ -147,6 +147,7 @@
             }
         }
 
+
         var vetor = [];
 
         // organizando indice numero de linhas.
@@ -162,6 +163,7 @@
         }
         atualizarColuna(vetor, 1);
     }
+
 
     function atualizarLinha(vetor, linha) {
         var tr;
@@ -190,6 +192,8 @@
             }
         }
     }
+
+
 
     function atualizarColuna(vetor, coluna) {
 
@@ -241,7 +245,7 @@
     }
 
 
-    //------------------------------------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------------------------------------
 
     // função principal.
     calcular = function() {
@@ -277,6 +281,7 @@
         var pivoColuna;
         var pivoLinha;
         var valDivisao;
+        var numIteracoes = 0;
 
         jaCalculado = true;
         salvarEstado();
@@ -285,11 +290,11 @@
 
             pivoColuna = Znegativo();
 
-            if (verificarIlimitado(pivoColuna)) {
-                alert("soluções ilimitadas");
+            if (verificarIlimitado(pivoColuna) || numIteracoes++ > 2000) {
+                criarRelatorio("Soluções Ilimitadas");
                 break;
             } else if (verificarMultiplosResultados()) {
-                alert("multiplos resultados");
+                criarRelatorio("Multiplos Resultados");
                 break;
             } else if (pivoColuna != -1) {
                 pivoLinha = menorDivisao(pivoColuna);
@@ -305,7 +310,7 @@
                 zerandoColuna(pivoLinha, pivoColuna);
                 indiceEstadosFinais[estadoAtual];
             } else {
-                alert("solução otima");
+                criarRelatorio("Solução Ótima");
                 break;
             }
 
@@ -370,7 +375,6 @@
 
                     menor = colAux[i - 1];
                     indice = i;
-
                     // console.log("menor: " + menor + " indice: " + indice);
                 }
             }
@@ -446,6 +450,71 @@
     }
 
 
+    // parte 5, criação de relatorio com variaveis basicas e não basicas.
+    function criarRelatorio(resultado) {
+        var vetor = [];
+        var vetorNaoBasica = [];
+        var vetorBasica = [];
+        var naoBasica = false;
+        var z = 0;
+        for (var i = 2; i < numColunas - 1; i++) {
+
+            vetor = getColuna(i);
+
+            // verificando se variavel é não basica.
+            for (var j = 1; j < numLinhas - 1; j++) {
+
+                console.log("entrou no primeiro for");
+                if (vetor[j] != 1 && vetor[j] != 0) {
+                    naoBasica = true;
+                    vetorNaoBasica[vetorNaoBasica.length] = vetor[0] + (" = " + 0);
+                }
+
+            }
+
+            // verificando se a variavel é basica
+            if (!naoBasica) {
+                for (var j = 1; j < numLinhas - 1; j++) {
+                    if (vetor[j] == 1) {
+                        vetorBasica[vetorBasica.length] = vetor[0] + (" = " + getCelula(j, numColunas - 1));
+                        naoBasica = false;
+                    }
+                }
+            }
+        }
+
+        z = getCelula(numLinhas, numColunas - 1);
+
+        $("#exampleModalLabel").append(": <b>" + resultado + "</b>");
+
+        var cols = "<tr><td>Básicas</td>";
+
+        for (var j = 0; j < vetorBasica.length; j++) {
+            cols += "<td>" + vetorBasica[j] + "</td>";
+        }
+        cols += "</tr>"
+        $("#tbl-resultados tbody").append(cols);
+
+        cols = "<tr><td>Não Básicas</td>";
+
+        for (var j = 0; j < vetorNaoBasica.length; j++) {
+            cols += "<td>" + vetorNaoBasica[j] + "</td>";
+        }
+        cols += "</tr>";
+
+        $("#tbl-resultados tbody").append(cols);
+
+
+        cols = "<tr><td>Valor de Z</td><td>" + z + "</td></tr>";
+
+
+        $("#tbl-resultados tbody").append(cols);
+
+        console.log("Variavel Não Basica : " + vetorNaoBasica);
+        console.log("Variavel Basica     : " + vetorBasica);
+        console.log("valor de Z: " + z);
+    }
+
     // verificar ilimitado, se todos os valores da coluna forem negativos é porque ele é ilimitado
     function verificarIlimitado(indice) {
 
@@ -461,10 +530,10 @@
             }
         }
 
-
         return true;
     }
 
+    // comparar a ultima solução encontrada com a atual se forem diferentes é porque contém multiplas soluções. 
     function verificarMultiplosResultados() {
         if (indiceEstadosFinais.length <= 1) {
             if (JSON.stringify(estados[0]) == JSON.stringify(estados[1])) {
@@ -487,6 +556,7 @@
         estadoAtual = estados.length;
     }
 
+
     // ir para o proximo estado
     proximo = function() {
         if (!jaCalculado) {
@@ -500,6 +570,7 @@
             }
         }
     }
+
 
     // ir para o estado anterior
     anterior = function() {
@@ -515,10 +586,12 @@
         }
     }
 
+
     // função chamada quando tem alteração em algum valor da tabela, jaCalculado vai pra falso e isso signifca que é necessario calcular novamente.
     $('input').on('input', function() {
         jaCalculado = false;
     });
+
 
     // alterando entre operação de maximizar e minimizar(vice e versa).
     operacao = function() {
@@ -552,6 +625,7 @@
         }
     }
 
+
     alterarSinal = function(op) {
         var auxSinal = $(op).parent().parent().find("button");
         var sinalAtual = auxSinal.text();
@@ -560,7 +634,6 @@
 
 
         // alterando sinal da celula.
-
         var indiceCelula = parseInt($(op).closest("tr").index());
         var valCelula = getCelula(indiceCelula + 1, (indiceCelula + (numX + 2)));
 
@@ -584,7 +657,5 @@
 
         //console.log("indiceCelula: " + indiceCelula, "valCelula: " + valCelula);
     }
-
-
 
 })(jQuery);

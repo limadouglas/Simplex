@@ -149,13 +149,16 @@
                 <button type="button" class="btn btn-sm col-2 order-3" id="anterior" onclick="anterior();"> ◄ anterior</button>
             </div>
 
+            <div class="observacao">
+                <h6 style="padding:.9em; text-align:center;"><br><br>Observação: Preencha os campos da tabela sem converter a linha Z, depois selecione o método (maximizar ou minimizar), vá clicando em próximo para ver o passo a passo.</h5>
+            </div>
 
             <!-- Modal -->
             <div class="modal fade" id="resultadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Resultado</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Resultado Final</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -163,15 +166,13 @@
                         <div class="modal-body">
                             <table class="table" id="tbl-resultados">
                                 <thead>
-                                    <tr>
-                                        <td>variáveis</td>
-                                        <td>resultados</td>
-                                    </tr>
+
                                 </thead>
                                 <tbody>
 
                                 </tbody>
                             </table>
+                            <h6 style="text-align: center"><br>*** continue clicando em próximo para ver o passo a passo *** </h6>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

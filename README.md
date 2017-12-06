@@ -66,6 +66,7 @@ Código 		| Título 												| Tarefa 																									| Situação
 2 			| Minimizar 											| Montar a Tabela Simplex e minimizar modelos de simplex com sistemas lineares. 	| Concluído 
 3 			| Adição	| Possibilidade de incluir novos parametros, ou seja, mais campos para o problema a ser calculado.							| Concluído 
 4 			| Demonstrar 								| Passo a passo da solução 					| Concluído
+5  			| Sensibilidade 										| Demonstrar ao usuário a tabela de sensibilidade. 															| Concluído
 
 
 

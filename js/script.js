@@ -489,7 +489,7 @@
                     }
                 }
             }
-
+//.
             console.log("sombra: "+sombraZero+" | menor: " + menor + " | maior: " + maior);
             var cols = "<tr>"+"<td>"+("F"+i)+"</td>";
             cols += "<td>"+sombraZero+"</td>";

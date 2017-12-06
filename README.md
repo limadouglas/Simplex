@@ -21,6 +21,26 @@ O algoritmo desenvolvido esta hospedado neste link: https://limadouglas.github.i
 
 - Feche o relátorio e continue clicando em proximo para ver o passo a passo da solução. 
 
+### Eventos
+
+Datas 	  		| Eventos
+--------------- | ----------------------------------------------------------
+21/10/2017    	| Planejamento
+29/10/2017    	| Criação da Estrutura Principal
+05/11/2017    	| Início do desenvolvimento algotimo simplex de maximizar
+10/11/2017  	  | Fim do desenvolvimento algotimo simplex de maximizar
+12/11/2017    	| Início do desenvolvimento algotimo simplex de minimizar
+16/11/2017    	| Fim do desenvolvimento algotimo simplex de minimizar
+16/11/2017    	| Inicio do desenvolvimento da análise de sensibilidade
+18/11/2017    	| Início do desenvolvimento do passo a passo
+20/11/2017    	| Fim do desenvolvimento da análise de sensibilidade
+20/11/2017    	| Fim do desenvolvimento do passo a passo
+25/11/2017    	| Desenvolvimento do relatório
+26/11/2017    	| Testes
+21/11/2017    	| Correções de erros
+02/12/2017    	| Correções de erros
+05/12/2017    	| Atualizando README
+
 ### Compatibilidade
 
 Requisitos 			| Ferramentas

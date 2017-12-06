@@ -496,7 +496,7 @@
             cols += "<td>"+menor+"</td>";
             cols += "<td>"+maior+"</td>";
             cols += "<td>"+vetorBInicial[i]+"</td>";
-//.
+
             $('#tabela-sensibilidade tbody').append(cols);
 
             menor = null;

@@ -489,7 +489,7 @@
                     }
                 }
             }
-//.
+
             console.log("sombra: "+sombraZero+" | menor: " + menor + " | maior: " + maior);
             var cols = "<tr>"+"<td>"+("F"+i)+"</td>";
             cols += "<td>"+sombraZero+"</td>";
@@ -497,7 +497,7 @@
             cols += "<td>"+maior+"</td>";
             cols += "<td>"+vetorBInicial[i]+"</td>";
 
-            $('#tabela-sensibilidade').append(cols);
+            $('#tabela-sensibilidade tbody').append(cols);
 
             menor = null;
             maior = null;

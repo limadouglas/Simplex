@@ -97,7 +97,7 @@
                         <td>
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                 <div class="btn-group" role="group">
-                                    <button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <= </button>
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <= </button>
                                     <div class="dropdown-menu" aria-labelledby="sinal">
                                         <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a>
                                         <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> = </a>
@@ -118,7 +118,7 @@
                         <td>
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                 <div class="btn-group" role="group">
-                                    <button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <= </button>
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <= </button>
                                     <div class="dropdown-menu" aria-labelledby="sinal">
                                         <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a>
                                         <a class="dropdown-item" href="#" onclick="alterarSinal(this);"> = </a>
@@ -148,9 +148,9 @@
                 <button type="button" class="btn btn-sm col-2 order-1" id="proximo" onclick="proximo();">próximo ► </button>
                 <button type="button" class="btn btn-sm col-2 order-3" id="anterior" onclick="anterior();"> ◄ anterior</button>
             </div>
-
+            <div><h6 id="sensibilidade"></h6></div>
             <div class="observacao">
-                <h6 style="padding:.9em; text-align:center;"><br><br>Observação: Preencha os campos da tabela sem converter a linha Z, depois selecione o método (maximizar ou minimizar), siga clicando em próximo para ver o passo a passo.</h5>
+                <h6 style="padding:.9em; text-align:center;"><br><br>Observação: Preencha os campos da tabela sem converter a linha Z, depois selecione o método (maximizar ou minimizar), siga clicando em próximo para ver o passo a passo.</h6>
             </div>
 
             <!-- Modal -->
@@ -164,13 +164,25 @@
                     </button>
                         </div>
                         <div class="modal-body">
+
                             <table class="table" id="tbl-resultados">
                                 <thead>
-
                                 </thead>
                                 <tbody>
-
                                 </tbody>
+                            </table>
+                            <h5>Tabela de Sensibilidade</h5>
+                            <table class="table table-responsive " id="tabela-sensibilidade">
+                                <thead>
+                                <tr>
+                                    <th>Recursos</th>
+                                    <th>Sombra</th>
+                                    <th>Mínimo</th>
+                                    <th>Máximo</th>
+                                    <th>Iniciais(B)</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
                             </table>
                             <h6 style="text-align: center"><br>*** continue clicando em próximo para ver o passo a passo *** </h6>
                         </div>

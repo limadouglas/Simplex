@@ -8,6 +8,7 @@
     var estadoAtual = 0;
     var jaCalculado = false;
     var indiceEstadosFinais = [];
+    var vetorBInicial=[];
 
     var btnRemover = '<img src="imagens/ios-close.svg" class="float-left collapse" alt="excluir" onclick="remover(this);">';
     var btnAdicionar = '<img src="imagens/ios-plus.svg" class="float-right collapse" alt="adicionar" onclick="adicionar(this);">';
@@ -55,7 +56,7 @@
         for (var i = 0; i < numColunas - 3; i++) {
             cols += '<td><input type="text" value="0"></td>';
         }
-        cols += '<td><div class="btn-group" role="group" aria-label="Button group with nested dropdown"><div class="btn-group" role="group"><button id="sinal" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">=</button><div class="dropdown-menu" aria-labelledby="sinal"><a class="dropdown-item" href="#" onclick="alterarSinal(this);"> <= </a><a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a></div></div></div></td>';
+        cols += '<td><div class="btn-group" role="group" aria-label="Button group with nested dropdown"><div class="btn-group" role="group"><button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">=</button><div class="dropdown-menu" aria-labelledby="sinal"><a class="dropdown-item" href="#" onclick="alterarSinal(this);"> <= </a><a class="dropdown-item" href="#" onclick="alterarSinal(this);"> >= </a></div></div></div></td>';
         cols += '<td class="indice"><input type="text" value="0"></td>';
         linha += cols + '</tr>';
 
@@ -253,6 +254,8 @@
             inverterSinalLinha(numLinhas);
         }
 
+        vetorBInicial = getColuna(numColunas-1);
+
         simplex();
 
         resultado();
@@ -309,6 +312,7 @@
                 zerandoColuna(pivoLinha, pivoColuna);
                 indiceEstadosFinais[estadoAtual];
             } else {
+                analiseSensibilidade();
                 criarRelatorio("Solução Ótima");
                 break;
             }
@@ -448,14 +452,66 @@
         }
     }
 
+    function analiseSensibilidade() {
+        var vetorBFinal = getColuna(numColunas-1);
+        var menor = null, maior = null, aux;
+        var vetorF = [];
+        var sombraZero = false;
 
-    // parte 5, criação de relatorio com variaveis basicas e não basicas.
+        console.log("VetorBFinal" + JSON.stringify(vetorBFinal));
+        console.log("VetorBInicial" + JSON.stringify(vetorBInicial));
+
+
+        for(var i = 1; i <= numF; i++){
+
+            vetorF = getColuna(numX + 1 + i);
+            console.log("VetorF" + JSON.stringify(vetorF));
+
+            sombraZero = getCelula(numLinhas, (numX + 1 + i));
+
+            if(sombraZero === 0){
+                maior = vetorBInicial[i];
+            }
+
+
+            for(var j = 1; j < numLinhas; j++){
+                if(vetorF[j] !== 0) {
+                    aux = ((-vetorBFinal[j]) / vetorF[j]) + vetorBInicial[i];
+                    if(menor > aux || menor == null){
+                        menor = aux;
+                        console.log(i+"MENOR --" + "menor: " + menor + " | maior: " + maior);
+                    }
+                    if(sombraZero !== 0){
+                        if(maior < aux || maior == null){
+                            maior = aux;
+                            console.log(i+"MAIOR -- " + "menor: " + menor + " | maior: " + maior);
+                        }
+                    }
+                }
+            }
+
+            console.log("sombra: "+sombraZero+" | menor: " + menor + " | maior: " + maior);
+            var cols = "<tr>"+"<td>"+("F"+i)+"</td>";
+            cols += "<td>"+sombraZero+"</td>";
+            cols += "<td>"+menor+"</td>";
+            cols += "<td>"+maior+"</td>";
+            cols += "<td>"+vetorBInicial[i]+"</td>";
+
+            $('#tabela-sensibilidade').append(cols);
+
+            menor = null;
+            maior = null;
+        }
+
+    }
+
+    // parte 6, criação de relatorio com variaveis basicas e não basicas.
     function criarRelatorio(resultado) {
         var vetor = [];
         var vetorNaoBasica = [];
         var vetorBasica = [];
         var naoBasica = false;
-        var z = 0;
+
         for (var i = 2; i < numColunas - 1; i++) {
 
             vetor = getColuna(i);
@@ -463,7 +519,6 @@
             // verificando se variavel é não basica.
             for (var j = 1; j < numLinhas - 1; j++) {
 
-                console.log("entrou no primeiro for");
                 if (vetor[j] != 1 && vetor[j] != 0) {
                     naoBasica = true;
                     vetorNaoBasica[vetorNaoBasica.length] = vetor[0] + (" = " + 0);
@@ -475,7 +530,8 @@
             if (!naoBasica) {
                 for (var j = 1; j < numLinhas - 1; j++) {
                     if (vetor[j] == 1) {
-                        vetorBasica[vetorBasica.length] = vetor[0] + (" = " + getCelula(j, numColunas - 1));
+                        var aux = (getCelula(j, numColunas - 1)).toString();
+                        vetorBasica[vetorBasica.length] = vetor[0] + (" = " + aux);
                         naoBasica = false;
                     }
                 }
